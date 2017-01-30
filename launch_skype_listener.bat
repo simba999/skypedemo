@@ -1,0 +1,1 @@
+Scripts\python.exe src\skype_listener_launcher.py username password

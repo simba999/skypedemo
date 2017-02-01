@@ -1,9 +1,9 @@
-from time import timezone
+# from time import timezone
 from skype_message_processor import SkypeMessageProcessor
 import json
 import sys
 import signal
-from datetime import datetime
+from datetime import datetime, timezone
 
 def signal_handler(signal, frame):
         print('You pressed Ctrl+C!')
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     if (len(sys.argv) == 4):
         username = sys.argv[1]
         password = sys.argv[2]
-        token = sys.argv[2]
+        token = sys.argv[3]
 
     try:
         signal.signal(signal.SIGINT, signal_handler)

@@ -1,5 +1,5 @@
 import json
-from sys import stderr
+import sys
 from datetime import datetime, timezone
 from skpy import Skype, SkypeAuthException, SkypeEventLoop, SkypeNewMessageEvent
 
@@ -20,6 +20,7 @@ class SkypeMessageProcessor(SkypeEventLoop):
                     "time": event.msg.time
                 }, separators=(',',':')))
         except Exception as ex:
+            print ("EVNEnT EXCEPTION")
             sys.stderr.write(json.dumps({
                     "event": "Error",
                     "source": u"skype_message_processor",
@@ -34,24 +35,32 @@ class SkypeMessageProcessor(SkypeEventLoop):
             try:
                 self.conn.readToken()
             except (SkypeAuthException, IOError):
+                print ("**********READ TOkEN**********")
+                # newsk = Skype(username, password)
+                # print ("@@@@CNNN: ", newsk)
                 if (not username or not password == ""):
-                    sys.stderr.write(json.dumps({
-                        "event": "Error",
-                        "source": u"skype_message_processor",
-                        "type": "Internal",
-                        "time": datetime.now(timezone.utc),
-                        "content": "Token is invalid and username or password was not specified"
-                    }, separators=(',',':')))
-                    sys.exit(-1)
+                    print (username)
+                    print (password)
+
+                    # sys.stderr.write(json.dumps({
+                    #     "event": "Error",
+                    #     "source": u"skype_message_processor",
+                    #     "type": "Internal",
+                    #     "time": datetime.now(timezone.utc),
+                    #     "content": "Token is invalid and username or password was not specified"
+                    # }, separators=(',',':')))
+                    # sys.exit(-1)
                 # Prompt the user for their credentials.
+                print ("!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!")
                 self.conn.setUserPwd(username, password)
                 self.conn.getSkypeToken()
                 # getSkypeTokens writes token file automatically if specified
-            try:
-                self.conn.readToken()
-            except:
-                self.conn.getSkypeToken()
+            # try:
+            #     self.conn.readToken()
+            # except:
+            #     self.conn.getSkypeToken()
         except Exception as ex:
+            print ("@@@@@@@@@@@@@@@@@TakenFileException!@@@@@@@@@@")
             sys.stderr.write(json.dumps({
                 "event": "Error",
                 "source": u"skype_message_processor",
